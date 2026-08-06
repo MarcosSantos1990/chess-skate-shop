@@ -62,7 +62,11 @@ const SignInForm = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="Digite seu email" {...field} />
+                      <Input
+                        placeholder="Digite seu email"
+                        autoComplete="email"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -78,6 +82,7 @@ const SignInForm = () => {
                       <Input
                         placeholder="Digite sua senha"
                         type="password"
+                        autoComplete="current-password"
                         {...field}
                       />
                     </FormControl>
