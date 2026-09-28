@@ -52,22 +52,30 @@ const SignInForm = () => {
           router.push("/");
         },
         onError: (ctx) => {
-          if (ctx.error.code === "USER_NOT_FOUND") {
-            toast.error("E-mail não encontrado.");
-            return form.setError("email", {
-              message: "E-mail não encontrado.",
-            });
+          const errorCode = ctx?.error?.code;
+          const errorMessage =
+            ctx?.error?.message ?? "E-mail ou senha inválidos.";
+
+          if (errorCode === "USER_NOT_FOUND") {
+            const message = "E-mail não encontrado.";
+            toast.error(message);
+            form.setError("email", { message });
+            return;
           }
-          if (ctx.error.code === "INVALID_EMAIL_OR_PASSWORD") {
-            toast.error("E-mail ou senha inválidos.");
-            form.setError("password", {
-              message: "E-mail ou senha inválidos.",
-            });
-            return form.setError("email", {
-              message: "E-mail ou senha inválidos.",
-            });
+
+          if (
+            errorCode === "INVALID_EMAIL_OR_PASSWORD" ||
+            errorMessage.toLowerCase().includes("invalid email or password") ||
+            errorMessage.toLowerCase().includes("email or password")
+          ) {
+            const message = "E-mail ou senha inválidos.";
+            toast.error(message);
+            form.setError("email", { message });
+            form.setError("password", { message });
+            return;
           }
-          toast.error(ctx.error.message);
+
+          toast.error(errorMessage);
         },
       },
     });
